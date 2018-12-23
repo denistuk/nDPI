@@ -10,3 +10,15 @@ COPY 10packets.pcap /tmp/
 CMD ["/bin/bash"]
 
 
+v2
+
+ubuntu@ip-172-31-37-249:~$ cat Dockerfile
+
+FROM ubuntu:16.04
+MAINTAINER Denis Tukarchuk <dens.tukarchuk@gmail.com>
+RUN apt-get update -y && apt-get install git -y && apt-get install libpcap-dev -y && apt-get install automake -y && apt-get install libtool -y && apt-get install autoconf -y && apt-get install pkg-config -y && rm -rf /var/lob/apt/list
+RUN git clone https://github.com/oifergan/nDPI.git
+RUN cd nDPI && ./autogen.sh && ./configure && make
+RUN cp /nDPI/example/ndpiReader /usr/local/bin/ && rm -rf /nDPI
+COPY 10packets.pcap /tmp/
+CMD ["/bin/bash"]
