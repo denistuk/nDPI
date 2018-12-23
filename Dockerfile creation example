@@ -23,5 +23,8 @@ RUN cp /nDPI/example/ndpiReader /usr/local/bin/ && rm -rf /nDPI
 COPY 10packets.pcap /tmp/
 CMD ["/bin/bash"]
 
-
+ for i in {1..10} ; do docker run -it --name ndpi_$i --hostname ndpi_$i ndpi_over_dockefile:3 /bin/bash ; done
  for i in {1..10} ; do docker run -it --name ndpi_$i --hostname ndpi_$i ndpi_over_dockefile:3 ; done
+
+docker exec ndpi_1 ip ad | grep eth0 -A 3|grep inet |awk '{print $2}'
+for i in {1..10} ; do docker exec ndpi_$i ip ad | grep eth0 -A 3|grep inet |awk '{print $2}' ; done
